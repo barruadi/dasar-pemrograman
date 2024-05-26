@@ -1,0 +1,66 @@
+---------------------------------------------------------------
+procedure IsiTabMatKul (input/output T: TabMatKul)
+    if T.NELMT = NMax then
+        output("Tabel Penuh")
+    else {T.NELMT < NMax}
+        i <- T.NELMT
+        while (flag and (i < NMax)) do
+            input(X)
+            if EOP(X.KodeMK) then flag <- False
+            else:
+                T[i] <- X
+                i <- i + 1
+
+
+---------------------------------------------------------------
+function PengajarMK ( P: string, T: TabMatKul ) -> integer :
+    if T.NELMT = 0 then
+        -> 0
+    else: {T tidak kosong}
+        i <- T.NELMT
+        while (i > 1) do
+            if T.TM[i].Pengajar = P then
+                -> i
+            else:
+                i <- i - 1
+        -> 0
+
+
+---------------------------------------------------------------
+procedure WriteKuliahKosong (input/output T: TabMatKul)
+    if T.NELMT = 0 then
+        output("Tidak ada data")
+    else:
+        i traversal [1..T.NELMT]:
+            if T.TM[i].JmlPeserta = 0 then
+                output(T.TM[i].KodeMK)
+                output(T.TM[i].NamaMK)
+                output(T.TM[i].Pengajar)
+
+
+---------------------------------------------------------------
+procedure UpdateMatKul (input/output T: TabMatKul, input N: integer)
+    if T.NELMT = 0 then
+        output("Tidak ada data")
+    else:
+        i traversal [1..T.NELMT]:
+            T.TM[i].JmlPeserta <- N
+
+
+
+---------------------------------------------------------------
+procedure SortJmlPeserta (input/output T: TabMatKul, input asc: boolean)
+    if (T.NELMT > 1) then
+        i traversal [1..T.NELMT-1]
+            idx <- i
+            j <- i
+            while (j <= T.NELMT) do
+                if asc then
+                    if (T.TM[j].JmlPeserta < T.TM[idx].JmlPeserta) then
+                        idx <- j
+                else
+                    if (T.TM[j].JmlPeserta > T.TM[idx].JmlPeserta) then
+                        idx <- j
+            temp <- T.TM[i]
+            T.TM[i] <- T.TM[idx]
+            T.TM[idx] <- temp
